@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Cartes NFC AM2TECH</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0A84FF">
+  <link rel="icon" href="icon.png">
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f5f7fb;
+      padding: 2em;
+      text-align: center;
+    }
+    h1 {
+      color: #0A84FF;
+    }
+    input {
+      width: 90%;
+      max-width: 400px;
+      padding: 1em;
+      font-size: 1em;
+      margin: 0.5em 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      padding: 1em 2em;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      background-color: #0A84FF;
+      color: white;
+      cursor: pointer;
+      margin-top: 1em;
+    }
+    .card {
+      margin-top: 2em;
+      background: white;
+      padding: 2em;
+      border-radius: 16px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <h1>Générateur de lien NFC</h1>
+  <p>Entre le prénom pour créer un lien vers la carte</p>
+  <input type="text" id="prenom" placeholder="Ex: ahmed">
+  <br>
+  <button onclick="generer()">Générer le lien</button>
+  <div id="resultat" class="card" style="display:none;">
+    <p>Lien généré :</p>
+    <a id="lien" href="#" target="_blank"></a>
+  </div>
+
+  <script>
+    function generer() {
+      const prenom = document.getElementById("prenom").value.toLowerCase().trim();
+      const lien = `carte/${prenom}.html`;
+      const fullURL = window.location.href.replace('index.html', '') + lien;
+      document.getElementById("lien").href = lien;
+      document.getElementById("lien").textContent = fullURL;
+      document.getElementById("resultat").style.display = 'block';
+    }
+  </script>
+</body>
+</html>

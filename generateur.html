@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Générateur de Carte NFC - AM2TECH</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f5f7fb;
+      padding: 2em;
+      text-align: center;
+    }
+    input {
+      width: 90%;
+      max-width: 400px;
+      padding: 1em;
+      margin: 0.5em 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 1em 2em;
+      font-size: 1em;
+      background: #0A84FF;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 1em;
+    }
+  </style>
+</head>
+<body>
+  <h1>🪪 Générateur de Carte NFC</h1>
+  <form id="form">
+    <input type="text" id="prenom" placeholder="Prénom" required><br>
+    <input type="text" id="nom" placeholder="Nom"><br>
+    <input type="tel" id="tel" placeholder="Téléphone"><br>
+    <input type="email" id="email" placeholder="Email"><br>
+    <input type="url" id="lien" placeholder="Lien externe (site, Doctolib...)"><br>
+    <button type="submit">📥 Générer & Télécharger</button>
+  </form>
+
+  <script>
+    document.getElementById("form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const prenom = document.getElementById("prenom").value.trim();
+      const nom = document.getElementById("nom").value.trim();
+      const tel = document.getElementById("tel").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const lien = document.getElementById("lien").value.trim();
+
+      const contenu = `
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>${prenom} ${nom} - Carte NFC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f5f7fb;
+      padding: 2em;
+      text-align: center;
+    }
+    .card {
+      background: white;
+      padding: 2em;
+      border-radius: 16px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      display: inline-block;
+      margin-top: 2em;
+    }
+    a {
+      color: #0A84FF;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Carte NFC</h1>
+  <div class="card">
+    <h2>${prenom} ${nom}</h2>
+    ${tel ? `<p>📞 <a href="tel:${tel}">${tel}</a></p>` : ""}
+    ${email ? `<p>✉️ <a href="mailto:${email}">${email}</a></p>` : ""}
+    ${lien ? `<p>🔗 <a href="${lien}" target="_blank">Voir le site</a></p>` : ""}
+  </div>
+</body>
+</html>`;
+
+      const blob = new Blob([contenu], {type: "text/html"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = prenom.toLowerCase() + ".html";
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>
